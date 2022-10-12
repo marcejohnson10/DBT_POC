@@ -62,16 +62,29 @@ vars:
   # -- Naming conventions variables --
   # to add a new "layer", update the variable list_layers 
   # and create new variables with the names <layer>_folder_name and/or <layer>_prefixes 
-  model_types: ['staging', 'intermediate', 'marts', 'other']
+  model_types: ['staging', 'intermediate', 'marts', 'other', 'raw', 'products', 'transform']
 
   staging_folder_name: 'staging'
-  intermediate_folder_name: 'intermediate'
-  marts_folder_name: 'marts'
-  
-  staging_prefixes: ['stg_']
-  intermediate_prefixes: ['int_']
-  marts_prefixes: ['fct_', 'dim_']
-  other_prefixes: ['rpt_']
+  raw_folder_name: 'raw'
+  intermediate_folder_name: 'transform'
+  marts_folder_name: 'products'
+  products_folder_name: 'products'
+
+  # staging_folder_name: 'staging'
+  # intermediate_folder_name: 'intermediate'
+  # marts_folder_name: 'marts'
+
+  staging_suffixes: ['_stg']
+  intermediate_suffixes: ['_rslt']
+  marts_suffixes: ['_fct', '_dim', '_dmt']
+  other_suffixes: ['_oth']
+  raw_suffixes: ['_raw']
+  products_suffixes: ['_fct', '_dim', '_dmt']
+
+  # staging_prefixes: ['stg_']
+  # intermediate_prefixes: ['int_']
+  # marts_prefixes: ['fct_', 'dim_']
+  # other_prefixes: ['rpt_']
 
   # -- Performance variables --
   chained_views_threshold: 5
