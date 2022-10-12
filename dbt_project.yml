@@ -38,8 +38,8 @@ clean-targets:         # directories to be removed by `dbt clean`
 # dbt run/dbt/seed/dbt snapshot commands. 
 # Full documentation: https://docs.getdbt.com/reference/project-configs/on-run-start-on-run-end
 on-run-end:
-  - "{{ grant_all_on_schemas(schemas, 'public') }}"
-  - "{{ dbt_artifacts.upload_results(results) }}"
+  # - "{{ grant_all_on_schemas(schemas, 'public') }}"
+  # - "{{ dbt_artifacts.upload_results(results) }}"
 
 # Configuring seeds 
 # Full documentation: https://docs.getdbt.com/docs/building-a-dbt-project/seeds
