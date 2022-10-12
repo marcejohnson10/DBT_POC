@@ -9,6 +9,16 @@ config-version: 2
 # In dbt Cloud IDE, this field is unused.
 profile: 'snowflake_demo_project'
 
+# Variables that can be used in models or other objects
+vars:
+  # The `start_date` variable will be accessible in all resources
+  start_date: '2016-06-01'
+  # The `platforms` variable is only accessible to resources in the my_dbt_project project
+  my_snowflake_dbt_project:
+    platforms: ['web', 'mobile']
+    dev_db: 'dbt_dev'
+    prod_db: 'dbt_prod'
+
 # These configurations specify where dbt should look for different types of files.
 # The `source-paths` config, for example, states that models in this project can be
 # found in the "models/" directory. You don't need to change these for this project.
@@ -28,8 +38,8 @@ clean-targets:         # directories to be removed by `dbt clean`
 # dbt run/dbt/seed/dbt snapshot commands. 
 # Full documentation: https://docs.getdbt.com/reference/project-configs/on-run-start-on-run-end
 on-run-end:
-  - "{{ grant_all_on_schemas(schemas, 'public') }}"
-  - "{{ dbt_artifacts.upload_results(results) }}"
+  # - "{{ grant_all_on_schemas(schemas, 'public') }}"
+  # - "{{ dbt_artifacts.upload_results(results) }}"
 
 # Configuring seeds 
 # Full documentation: https://docs.getdbt.com/docs/building-a-dbt-project/seeds
@@ -45,19 +55,19 @@ seeds:
 # These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro. 
 models:
-  pre-hook: "{{ logging.log_model_start_event() }}"
-  post-hook: "{{ logging.log_model_end_event() }}"
+  # pre-hook: "{{ logging.log_model_start_event() }}"
+  # post-hook: "{{ logging.log_model_end_event() }}"
   my_snowflake_dbt_project:
     # When you rename the project up top, remember to rename it here too. 
-    #post-hook: "{{ logging.log_model_end_event() }}"
-      staging:
-          # Applies to all files under models/staging 
+    # post-hook: "{{ logging.log_model_end_event() }}"
+      transform:
+          # Applies to all files under models/transform 
           +materialized: view
           # This defaults every model in the staging directory to be materialized as a view in Snowflake. To learn more about materializations: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/materializations
-          schema: staging
+          schema: transform
           # This configuration builds every model in the staging directory into a schema named staging_<target_schema>
           # learn more about custom schemas: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/using-custom-schemas
-          query_tag: dbt_staging
+          query_tag: dbt_transform
           # This applies a query tag named `dbt_staging` to any related queries in Snowflake's Query_History
           # learn more about query tags: https://docs.getdbt.com/reference/resource-configs/snowflake-configs#query-tags
           snowflake_warehouse: compute_wh
@@ -66,10 +76,12 @@ models:
           tags: "daily"
           # You can apply tags to models, snapshots, seeds. This allows you to run based on the tag such as `dbt run --model tag:daily` which would let you run all the models tagged "daily"
           # learn more about tags: https://docs.getdbt.com/reference/resource-configs/tags#definition
-      marts:
-        core:
-         # Applies to all files under models/marts/core
-          +materialized: table
-          # This defaults every model in the marts/core directory to be materialized as a table in Snowflake
-          query_tag: dbt_marts   
-          # This applies a query tag named `dbt_marts` to any related queries in Snowflake's Query_History       
+      data_product:
+          schema: data_product
+          # This configuration builds every model in the transform directory into a schema named transform_<target_schema>
+          core:
+          # Applies to all files under models/marts/core
+            +materialized: table
+            # This defaults every model in the marts/core directory to be materialized as a table in Snowflake
+            query_tag: dbt_marts   
+            # This applies a query tag named `dbt_marts` to any related queries in Snowflake's Query_History       
