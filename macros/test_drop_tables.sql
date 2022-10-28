@@ -22,8 +22,8 @@
           CONCAT_WS('.', TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME) AS RELATION_NAME
         FROM 
           {{ target.database }}.INFORMATION_SCHEMA.TABLES
-        WHERE TABLE_SCHEMA = 'transform'
-          AND TABLE_NAME NOT IN
+        WHERE TABLE_SCHEMA <> {{ target.schema }}
+          AND TABLE_NAME /* NOT */ IN
             ({%- for model in current_models -%}
                 '{{ model.upper() }}'
                 {%- if not loop.last -%}
@@ -37,12 +37,13 @@
 
   {% endset %}
 
-{{ cleanup_query }}
-{% endif %}
+
 
 {% do log(cleanup_query, info=True) %}
 {% set drop_commands = run_query(cleanup_query).columns[0].values() %}
-{{ drop_commands }}
+
+
+
 
 
 {% if drop_commands %}
@@ -52,16 +53,15 @@
     {% do log('Printing DROP commands...', True) %}
   {% endif %}
   {% for drop_command in drop_commands %}
+    {{ drop_command }}
     {% do log(drop_command, True) %}
-    {{ drop command }}
     {% if dryrun | as_bool == False %}
       {% do run_query(drop_command) %}
-      {{ drop command }}
     {% endif %}
   {% endfor %}
 {% else %}
   {% do log('No relations to clean.', True) %}
 {% endif %}
 
-
+{% endif %}
 {%- endmacro -%}
