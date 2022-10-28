@@ -1,0 +1,1 @@
+select {{ test_drop_stale_tables }} from dual
