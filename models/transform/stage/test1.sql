@@ -1,1 +1,1 @@
-select {{ test_drop_stale_tables }} from dual
+select {{ drop_old_relations }} from dual

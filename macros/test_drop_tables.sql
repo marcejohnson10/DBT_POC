@@ -23,7 +23,7 @@
         FROM 
           {{ target.database }}.INFORMATION_SCHEMA.TABLES
         WHERE TABLE_SCHEMA <> {{ target.schema }}
-          AND TABLE_NAME /* NOT */ IN
+          AND TABLE_NAME IN
             ({%- for model in current_models -%}
                 '{{ model.upper() }}'
                 {%- if not loop.last -%}
