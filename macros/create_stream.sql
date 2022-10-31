@@ -1,10 +1,13 @@
-{% macro create_stream(stream_name, source_table_name) -%}
+{% macro create_stream() -%}
 
+    
     {% set query %}
-        create stream if not exists {{ stream_name }} on table {{ source_table_name }};
+        create stream if not exists {{ this }}_stream on table {{ this }};
     {% endset %}
-
+ 
+  
     {% do run_query(query) %}
+
 {%- endmacro %}
 
 

@@ -1,3 +1,9 @@
+{{ config(
+    materialized ='incremental',
+    post_hook="{{ create_stream() }}"
+) }}
+
+
 select 
 '{{ target_model }}' x_model,
 '{{ target.type }}' x_type,
@@ -9,8 +15,7 @@ select
 '{{ target.user }}' x_user,
 '{{ target.role }}' x_role,
 '{{ target.account }}' x_account,
-'{{ this }}' x_this
-
---{{ test_jinja_set }}
+'{{ this }}' x_this,
+'{{ this.schema }}' as x_test_get_schema_name
 
 from dual

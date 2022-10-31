@@ -6,7 +6,9 @@
 
 version: 2
 
+schema: transform
 models:
+  
   - name: customer_rslt
     description: transform layer for customers data
     columns:
@@ -70,6 +72,14 @@ models:
         description: '{{ doc("ship_mode") }}'
       - name: comment
         description: '{{ doc("comment") }}'
+
+  - name: nation_incr_test_rslt
+    description: test staging table
+    columns:
+      - name: n_nationkey
+        tests:
+          - unique
+          - not_null
 
   - name: nation_rslt
     description: staging layer for nations data
