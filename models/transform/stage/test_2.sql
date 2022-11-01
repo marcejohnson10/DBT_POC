@@ -1,7 +1,7 @@
 {{ config(
     materialized ='incremental',
     on_schema_change='sync_all_columns',
-    post_hook="{{ create_stream() }}"
+    post_hook="{{ create_stream(mj) }}"
 ) }}
 
 

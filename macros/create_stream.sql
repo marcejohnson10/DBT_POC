@@ -1,23 +1,26 @@
-{% macro create_stream(streamname) -%}
+{% macro create_stream(streamname=none) -%}
 
-    
-   {%- if streamname is none -%}
+{% if execute %}
 
-       {%- set stream_name = "{{ this.identifier }}" %} 
+{% set query %}    
+
+    {%- if streamname == none or streamname is not defined -%}
+
+       create stream if not exists {{ this }}_stream on table {{ this }};
+       
 
     {%- else -%}
 
-        {%- set stream_name = "{{ streamname | trim }}" %}
+        create stream if not exists {{ streamname }}_stream on table {{ this }};
 
     {%- endif -%}
 
-    {% set query %}
-        create stream if not exists {{ streamname }}_stream on table {{ this }};
-    {% endset %}
- 
-  
-    {% do run_query(query) %}
+{% endset %} 
+
+
+{% do run_query(query) %}
+
+{%- endif -%}
 
 {%- endmacro %}
-
 
