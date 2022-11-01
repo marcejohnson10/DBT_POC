@@ -36,6 +36,8 @@
       schema=this.schema,
       identifier=this.identifier) -%}
 {{ this.identifier }}
+{{ this.schema }}
+{{ this.database }}
 {{ log("Source Relation: " ~ source_relation, info=true) }}
 {% endif %}
 {%- endmacro %}
