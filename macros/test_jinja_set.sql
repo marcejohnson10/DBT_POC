@@ -29,10 +29,13 @@
 {%- endmacro %}
 
 {% macro test_get_model_name() -%}
+
 {% if execute %}
 {%- set source_relation = adapter.get_relation(
+      database=this.database,
+      schema=this.schema,
       identifier=this.identifier) -%}
-{{ source_relation }}
+{{ this.identifier }}
 {{ log("Source Relation: " ~ source_relation, info=true) }}
 {% endif %}
 {%- endmacro %}

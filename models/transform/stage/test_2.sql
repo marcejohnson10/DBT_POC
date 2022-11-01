@@ -1,5 +1,6 @@
 {{ config(
     materialized ='incremental',
+    on_schema_change='sync_all_columns',
     post_hook="{{ create_stream() }}"
 ) }}
 
@@ -16,6 +17,8 @@ select
 '{{ target.role }}' x_role,
 '{{ target.account }}' x_account,
 '{{ this }}' x_this,
-'{{ this.schema }}' as x_test_get_schema_name
+'{{ this.schema }}' as x_this_schema,
+'{{ this.identifier }}' as x_this_identifier,
+trim('{{ test_get_model_name() }}') as x_test_get_model_name
 
 from dual
