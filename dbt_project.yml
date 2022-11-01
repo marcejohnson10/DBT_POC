@@ -14,6 +14,8 @@ vars:
   # -- Naming conventions variables --
   # to add a new "layer", update the variable list_layers 
   # and create new variables with the names <layer>_folder_name and/or <layer>_prefixes 
+  
+  # the following sets of variables (i.e. folder names, suffixes, & prefixes) are used with the package "dbt_project_evaluator"
   model_types: ['staging', 'intermediate', 'marts', 'other', 'rawraw', 'products', 'transform']
 
   staging_folder_name: 'staging'
