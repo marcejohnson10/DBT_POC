@@ -1,0 +1,1 @@
+select {{ drop_old_relations }} from dual

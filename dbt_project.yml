@@ -11,6 +11,35 @@ profile: 'snowflake_demo_project'
 
 # Variables that can be used in models or other objects
 vars:
+  # -- Naming conventions variables --
+  # to add a new "layer", update the variable list_layers 
+  # and create new variables with the names <layer>_folder_name and/or <layer>_prefixes 
+  
+  # the following sets of variables (i.e. folder names, suffixes, & prefixes) are used with the package "dbt_project_evaluator"
+  model_types: ['staging', 'intermediate', 'marts', 'other', 'rawraw', 'products', 'transform']
+
+  staging_folder_name: 'staging'
+  rawraw_folder_name: 'raw'
+  intermediate_folder_name: 'transform'
+  marts_folder_name: 'products'
+  products_folder_name: 'products'
+
+  # staging_folder_name: 'staging'
+  # intermediate_folder_name: 'intermediate'
+  # marts_folder_name: 'marts'
+
+  staging_suffixes: ['_stg']
+  intermediate_suffixes: ['_rslt']
+  marts_suffixes: ['_fct', '_dim', '_dmt']
+  other_suffixes: ['_oth']
+  rawraw_suffixes: ['_rawraw']
+  products_suffixes: ['_fct', '_dim', '_dmt']
+
+  # staging_prefixes: ['stg_']
+  # intermediate_prefixes: ['int_']
+  # marts_prefixes: ['fct_', 'dim_']
+  # other_prefixes: ['rpt_']
+
   # The `start_date` variable will be accessible in all resources
   start_date: '2016-06-01'
   # The `platforms` variable is only accessible to resources in the my_dbt_project project
@@ -25,7 +54,7 @@ vars:
 source-paths: ["models"]
 analysis-paths: ["analysis"]
 test-paths: ["tests"]
-data-paths: ["data"]
+seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
@@ -55,6 +84,8 @@ seeds:
 # These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro. 
 models:
+  dbt_project_evaluator:
+    schema: project_evaluator
   # pre-hook: "{{ logging.log_model_start_event() }}"
   # post-hook: "{{ logging.log_model_end_event() }}"
   my_snowflake_dbt_project:

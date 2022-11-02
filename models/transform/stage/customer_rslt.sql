@@ -4,7 +4,7 @@
     materialized='incremental',
     transient=false,
     tags="hourly",
-    post_hook="{{ create_stream('new_stream','customer_rslt') }}"
+    post_hook="{{ create_stream() }}"
 ) }}
 
 /* This is a dbt model  which means that it fits 2 requirements:

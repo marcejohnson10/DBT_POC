@@ -1,10 +1,28 @@
-{% macro create_stream(stream_name, source_table_name) -%}
+{% macro create_stream(streamname=none) -%}
 
-    {% set query %}
-        create stream if not exists {{ stream_name }} on table {{ source_table_name }};
-    {% endset %}
+{% if execute %}
 
-    {% do run_query(query) %}
+
+{% set query %}    
+
+    {%- if streamname == none or streamname is not defined -%}
+      
+      {{ log("No stream name provide...name of stream defaulted to source table name.") }}
+      
+      create stream if not exists {{ this }}_stream on table {{ this }};
+      
+    {%- else -%}
+
+      create stream if not exists {{ this.database }}.{{ this.schema }}.{{ streamname }}_stream on table {{ this }};
+
+    {%- endif -%}
+
+{% endset %} 
+
+ 
+{% do run_query(query) %}
+
+{%- endif -%}
+
 {%- endmacro %}
-
-
+ 
