@@ -83,15 +83,22 @@ models:
   # All configurations under "my_project_name" apply only to "my_project_name"
   my_project_name:
     transform:
-        stage2:
-          # Applies to all files under models/transform 
+      # This configuration builds every model under the tranform directory into Snowflake schema named "transform".
+      # learn more about custom schemas: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/using-custom-schemas
+      schema: transform
+
+        # Applies to all files under models/transform/layer_2 folder
+        layer_2:
+
+          # This defaults every model in the layer_2 directory to be materialized as a table in Snowflake. 
+          # To learn more about materializations: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/materializations
           +materialized: table
-          # This defaults every model in the staging directory to be materialized as a view in Snowflake. To learn more about materializations: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/materializations
-          schema: transform
-          # This configuration builds every model in the staging directory into a schema named staging_<target_schema>
-          # learn more about custom schemas: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/using-custom-schemas
-        stage:
-          # Applies to all files under models/transform 
+
+
+
+
+        layer_1:
+          # Applies to all files under models/transform/layer_1 folder 
           +materialized: view
           # This defaults every model in the staging directory to be materialized as a view in Snowflake. To learn more about materializations: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/materializations
           schema: transform
