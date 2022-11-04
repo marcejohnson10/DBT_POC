@@ -68,7 +68,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 # Full documentation: https://docs.getdbt.com/reference/project-configs/on-run-start-on-run-end
 on-run-end:
   # - "{{ grant_all_on_schemas(schemas, 'public') }}"
-  # - "{{ dbt_artifacts.upload_results(results) }}"
+  - "{{ dbt_artifacts.upload_results(results) }}"
 
 # Configuring seeds 
 # Full documentation: https://docs.getdbt.com/docs/building-a-dbt-project/seeds
@@ -88,6 +88,21 @@ models:
     schema: project_evaluator
   # pre-hook: "{{ logging.log_model_start_event() }}"
   # post-hook: "{{ logging.log_model_end_event() }}"
+
+  #The following configuration can be used to specify where the raw (sources) data is uploaded, and where the dbt models are created:
+  dbt_artifacts:
+    +database: enterprise_np # optional, default is your target database
+    +schema: DBT_ARTIFACTS_METADATA # optional, default is your target schema
+    staging:
+      +database: enterprise_np # optional, default is your target database
+      +schema: DBT_ARTIFACTS_METADATA # optional, default is your target schema
+    #sources:
+      #+database: your_sources_database # optional, default is your target database
+      #+schema: your sources_database # optional, default is your target schema
+
+
+
+
   my_snowflake_dbt_project:
     # When you rename the project up top, remember to rename it here too. 
     # post-hook: "{{ logging.log_model_end_event() }}"
