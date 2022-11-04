@@ -15,7 +15,7 @@ models:
       - name: customer_key
         description: primary key of the model
         tests:
-          - unique
+          #- unique
           - not_null
       - name: name
         description: customer id
@@ -77,9 +77,9 @@ models:
     description: test staging table
     columns:
       - name: n_nationkey
-        tests:
-          - unique
-          - not_null
+        #tests:
+        #  - unique
+        #  - not_null
 
   - name: nation_rslt
     description: staging layer for nations data
