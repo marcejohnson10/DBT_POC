@@ -2,6 +2,8 @@
     {#
          load configuration from var
     #}
+
+{% if execute %}
     {%- set cfg = var('dbt_models_metadata', {}) -%}
     
 
@@ -21,8 +23,8 @@
         upsert results
             NOTE: this package only focues on model results
     #}
-    {{ dbt_models_metadata.upsert_results(cfg, results) }}
+     {{ dbt_models_metadata.upsert_results(cfg, results) }}
     
     COMMIT;
-
+{% endif %}
 {%- endmacro %}
