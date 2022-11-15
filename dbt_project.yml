@@ -11,6 +11,7 @@ profile: 'snowflake_demo_project'
 
 # Variables that can be used in models or other objects
 vars:
+  dbt_project_yml_var:  'my_dbt_project_yml_var'
   # -- Naming conventions variables --
   # to add a new "layer", update the variable list_layers 
   # and create new variables with the names <layer>_folder_name and/or <layer>_prefixes 

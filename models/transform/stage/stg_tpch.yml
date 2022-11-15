@@ -8,7 +8,28 @@ version: 2
 
 schema: transform
 models:
-  
+  - name: z_lineage_2
+    description: test
+    columns:
+      - name: id_1
+        description: primary key of the model
+        tests:
+          - unique:
+              config:
+                severity: error
+                error_if: ">20"
+                warn_if: ">0"
+  - name: z_lineage_3
+    description: test
+    columns:
+      - name: id_1
+        description: primary key of the model
+        tests:
+          - unique:
+              config:
+                severity: error
+                error_if: ">1"
+                warn_if: ">0"
   - name: customer_rslt
     description: transform layer for customers data
     columns:
