@@ -1,0 +1,141 @@
+name: integration-test
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  insert-and-update:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "[SETUP]: dbt deps (integration_tests/insert-and-update/test)"
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt deps -t actions-postgres"
+          dbt_project_folder: "/github/workspace/integration_tests/insert-and-update/test"
+        env:
+          DBT_PROFILES_DIR: "/github/workspace/integration_tests/.profiles"
+
+      - name: "[SETUP]: dbt deps (integration_tests/insert-and-update/assert)"
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt deps -t actions-postgres"
+          dbt_project_folder: "/github/workspace/integration_tests/insert-and-update/assert"
+        env:
+          DBT_PROFILES_DIR: "/github/workspace/integration_tests/.profiles"
+
+      - name: "[TEST]: generate models' metadata table and insert rows"
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt build -t actions-postgres"
+          dbt_project_folder: "/github/workspace/integration_tests/insert-and-update/test"
+        env:
+          DBT_PROFILES_DIR: "/github/workspace/integration_tests/.profiles"
+          GIT_COMMIT_HASH: ${{ env.GITHUB_SHA }}
+
+      - name: "[TEST]: update metadata table's rows"
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt build -t actions-postgres"
+          dbt_project_folder: "/github/workspace/integration_tests/insert-and-update/test"
+        env:
+          DBT_PROFILES_DIR: "/github/workspace/integration_tests/.profiles"
+          GIT_COMMIT_HASH: ${{ env.GITHUB_SHA }}
+
+      - name: "[ASSERT]: metadata table's structure and rows"
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt build -t actions-postgres"
+          dbt_project_folder: "/github/workspace/integration_tests/insert-and-update/assert"
+        env:
+          DBT_PROFILES_DIR: "/github/workspace/integration_tests/.profiles"
+
+
+  update-additional-columns:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "[SETUP]: dbt deps (integration_tests/insert-and-update/test)"
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt deps -t actions-postgres"
+          dbt_project_folder: "/github/workspace/integration_tests/insert-and-update/test"
+        env:
+          DBT_PROFILES_DIR: "/github/workspace/integration_tests/.profiles"
+
+      - name: "[SETUP]: dbt deps (integration_tests/update-additional-columns/test)"
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt deps -t actions-postgres"
+          dbt_project_folder: "/github/workspace/integration_tests/update-additional-columns/test"
+        env:
+          DBT_PROFILES_DIR: "/github/workspace/integration_tests/.profiles"
+
+      - name: "[SETUP]: dbt deps (integration_tests/update-additional-columns/assert)"
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt deps -t actions-postgres"
+          dbt_project_folder: "/github/workspace/integration_tests/update-additional-columns/assert"
+        env:
+          DBT_PROFILES_DIR: "/github/workspace/integration_tests/.profiles"
+
+      - name: "[SETUP]: generate metadata table and insert rows"
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt deps -t actions-postgres"
+          dbt_project_folder: "/github/workspace/integration_tests/insert-and-update/test"
+        env:
+          DBT_PROFILES_DIR: "/github/workspace/integration_tests/.profiles"
+
+      - name: "[TEST]: update metadata's additional columns and its rows"
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt build -t actions-postgres"
+          dbt_project_folder: "/github/workspace/integration_tests/update-additional-columns/test"
+        env:
+          DBT_PROFILES_DIR: "/github/workspace/integration_tests/.profiles"
+          GIT_COMMIT_HASH: ${{ env.GITHUB_SHA }}
+
+      - name: "[ASSERT]: metadata table's structure and rows"
+        uses: mwhitaker/dbt-action@master
+        with:
+          dbt_command: "dbt build -t actions-postgres"
+          dbt_project_folder: "/github/workspace/integration_tests/update-additional-columns/assert"
+        env:
+          DBT_PROFILES_DIR: "/github/workspace/integration_tests/.profiles"

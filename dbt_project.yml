@@ -11,6 +11,7 @@ profile: 'snowflake_demo_project'
 
 # Variables that can be used in models or other objects
 vars:
+  dbt_project_yml_var:  'my_dbt_project_yml_var'
   # -- Naming conventions variables --
   # to add a new "layer", update the variable list_layers 
   # and create new variables with the names <layer>_folder_name and/or <layer>_prefixes 
@@ -48,6 +49,22 @@ vars:
     dev_db: 'dbt_dev'
     prod_db: 'dbt_prod'
 
+  dbt_models_metadata:
+    # table_name specifies metadata table name
+    table_name: dbt_models_metadata
+    # schema specifies the schema in which metadata table is created
+    #  target schema will be used if not set
+    schema: everpeace_meta
+    
+    # You can define additional columns to the metadata table
+    # git information would be very useful when your project is maintained by git
+    #additional_columns:
+    #- name: 'git_repo'
+    #  value: 'http://github.com/everpeace/dbt-models-metadata'
+    #  dtype: 'text'
+    # - name: 'git_commit_hash'
+    #   value: '{{ env_var("GIT_COMMIT_HASH") }}' # you can use various macro here
+    #   dtype: 'text'
 # These configurations specify where dbt should look for different types of files.
 # The `source-paths` config, for example, states that models in this project can be
 # found in the "models/" directory. You don't need to change these for this project.
@@ -69,6 +86,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 on-run-end:
   # - "{{ grant_all_on_schemas(schemas, 'public') }}"
   # - "{{ dbt_artifacts.upload_results(results) }}"
+  #- '{{dbt_models_metadata.generate(results)}}'
 
 # Configuring seeds 
 # Full documentation: https://docs.getdbt.com/docs/building-a-dbt-project/seeds
@@ -88,6 +106,10 @@ models:
     schema: project_evaluator
   # pre-hook: "{{ logging.log_model_start_event() }}"
   # post-hook: "{{ logging.log_model_end_event() }}"
+
+  #dbt_models_metadata:
+  #  schema: everpeace_meta
+
   my_snowflake_dbt_project:
     # When you rename the project up top, remember to rename it here too. 
     # post-hook: "{{ logging.log_model_end_event() }}"
@@ -101,7 +123,7 @@ models:
           # learn more about custom schemas: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/using-custom-schemas
         stage:
           # Applies to all files under models/transform 
-          +materialized: view
+          +materialized: table
           # This defaults every model in the staging directory to be materialized as a view in Snowflake. To learn more about materializations: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/materializations
           schema: transform
           # This configuration builds every model in the staging directory into a schema named staging_<target_schema>
