@@ -49,12 +49,12 @@ vars:
     dev_db: 'dbt_dev'
     prod_db: 'dbt_prod'
 
-  dbt_models_metadata:
+  #dbt_models_metadata:
     # table_name specifies metadata table name
     table_name: dbt_models_metadata
     # schema specifies the schema in which metadata table is created
     #  target schema will be used if not set
-    schema: everpeace_meta
+    #schema: everpeace_meta
     
     # You can define additional columns to the metadata table
     # git information would be very useful when your project is maintained by git
@@ -85,12 +85,12 @@ clean-targets:         # directories to be removed by `dbt clean`
 # Full documentation: https://docs.getdbt.com/reference/project-configs/on-run-start-on-run-end
 on-run-end:
   # - "{{ grant_all_on_schemas(schemas, 'public') }}"
-<<<<<<< HEAD
-  - "{{ dbt_artifacts.upload_results(results) }}"
-=======
+
+  #- "{{ dbt_artifacts.upload_results(results) }}"
+
   # - "{{ dbt_artifacts.upload_results(results) }}"
   #- '{{dbt_models_metadata.generate(results)}}'
->>>>>>> 1e6512e734afb60bf6f9cf350514079f649af050
+
 
 # Configuring seeds 
 # Full documentation: https://docs.getdbt.com/docs/building-a-dbt-project/seeds
@@ -111,7 +111,7 @@ models:
   # pre-hook: "{{ logging.log_model_start_event() }}"
   # post-hook: "{{ logging.log_model_end_event() }}"
 
-<<<<<<< HEAD
+
   #The following configuration can be used to specify where the raw (sources) data is uploaded, and where the dbt models are created:
   dbt_artifacts:
     +database: enterprise_np # optional, default is your target database
@@ -125,10 +125,9 @@ models:
 
 
 
-=======
   #dbt_models_metadata:
   #  schema: everpeace_meta
->>>>>>> 1e6512e734afb60bf6f9cf350514079f649af050
+
 
   my_snowflake_dbt_project:
     # When you rename the project up top, remember to rename it here too. 
