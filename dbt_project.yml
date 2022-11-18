@@ -1,46 +1,73 @@
-# Rename this project below to match the name of your Snowflake database or
-# a name that closely reflects the intended use of your data product(s).
-# Project names should contain only lowercase characters and underscores. 
-# Do not modify the version and config-version below.
-
-name: 'my_project_name'
+# Rename this project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'my_snowflake_dbt_project'
 version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project. 
-# In dbt Cloud IDE, this field is unused. However, it is critical with DBT Core.
-profile: 'my_project_profile'
+# In dbt Cloud IDE, this field is unused.
+profile: 'snowflake_demo_project'
 
 # Variables that can be used in models or other objects
 vars:
+  dbt_project_yml_var:  'my_dbt_project_yml_var'
+  # -- Naming conventions variables --
+  # to add a new "layer", update the variable list_layers 
+  # and create new variables with the names <layer>_folder_name and/or <layer>_prefixes 
   
-  # The following sets of variables (i.e. folder names, suffixes, & prefixes) are used with the package "dbt_project_evaluator".
-  # To add a new "layer", update the variable list_layers and create new variables with the names <layer>_folder_name and/or <layer>_prefixes 
-  model_types: ['raw', 'data_products', 'transform']
+  # the following sets of variables (i.e. folder names, suffixes, & prefixes) are used with the package "dbt_project_evaluator"
+  model_types: ['staging', 'intermediate', 'marts', 'other', 'rawraw', 'products', 'transform']
 
-  raw_folder_name: 'raw'
-  transform_folder_name: 'transform'
-  data_products_folder_name: 'data_product'
+  staging_folder_name: 'staging'
+  rawraw_folder_name: 'raw'
+  intermediate_folder_name: 'transform'
+  marts_folder_name: 'products'
+  products_folder_name: 'products'
 
-  raw_suffixes: ['_raw']
-  transform_suffixes: ['_rslt']
-  data_products_suffixes: ['_fct', '_dim', '_dmt']
+  # staging_folder_name: 'staging'
+  # intermediate_folder_name: 'intermediate'
+  # marts_folder_name: 'marts'
+
+  staging_suffixes: ['_stg']
+  intermediate_suffixes: ['_rslt']
+  marts_suffixes: ['_fct', '_dim', '_dmt']
   other_suffixes: ['_oth']
-  
-  # Following is an example defining a `start_date` variable, accessible in all resources.
-  # For example, this variable could be referenced as filter within a SQL WHERE clause of a model.
+  rawraw_suffixes: ['_rawraw']
+  products_suffixes: ['_fct', '_dim', '_dmt']
+
+  # staging_prefixes: ['stg_']
+  # intermediate_prefixes: ['int_']
+  # marts_prefixes: ['fct_', 'dim_']
+  # other_prefixes: ['rpt_']
+
+  # The `start_date` variable will be accessible in all resources
   start_date: '2016-06-01'
- 
-  # Following is an example defining a `platform` variable, accessible in all resources
-  # accessible only to resources in the project 'my_project_name'
-  my_project_name:
+  # The `platforms` variable is only accessible to resources in the my_dbt_project project
+  my_snowflake_dbt_project:
     platforms: ['web', 'mobile']
     dev_db: 'dbt_dev'
     prod_db: 'dbt_prod'
 
+  #dbt_models_metadata:
+    # table_name specifies metadata table name
+    table_name: dbt_models_metadata
+    # schema specifies the schema in which metadata table is created
+    #  target schema will be used if not set
+    #schema: everpeace_meta
+    
+    # You can define additional columns to the metadata table
+    # git information would be very useful when your project is maintained by git
+    #additional_columns:
+    #- name: 'git_repo'
+    #  value: 'http://github.com/everpeace/dbt-models-metadata'
+    #  dtype: 'text'
+    # - name: 'git_commit_hash'
+    #   value: '{{ env_var("GIT_COMMIT_HASH") }}' # you can use various macro here
+    #   dtype: 'text'
 # These configurations specify where dbt should look for different types of files.
 # The `source-paths` config, for example, states that models in this project can be
-# found in the "models/" directory. You should not need to modify these variables.
+# found in the "models/" directory. You don't need to change these for this project.
 source-paths: ["models"]
 analysis-paths: ["analysis"]
 test-paths: ["tests"]
@@ -48,21 +75,22 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
-# directory which will store compiled SQL files
-target-path: "target"  
-
-# directories to be removed by `dbt clean`
-clean-targets:         
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
     - "target"
     - "dbt_modules"
 
-# on-run-start and on-run-end are SQL statement(s) or macros that run at the beginning or end of 
+# on-run-start and on-run-end are SQL statement(s) or macros that run at the end of 
 # dbt run/dbt/seed/dbt snapshot commands. 
 # Full documentation: https://docs.getdbt.com/reference/project-configs/on-run-start-on-run-end
-
 on-run-end:
   # - "{{ grant_all_on_schemas(schemas, 'public') }}"
+
+  #- "{{ dbt_artifacts.upload_results(results) }}"
+
   # - "{{ dbt_artifacts.upload_results(results) }}"
+  #- '{{dbt_models_metadata.generate(results)}}'
+
 
 # Configuring seeds 
 # Full documentation: https://docs.getdbt.com/docs/building-a-dbt-project/seeds
@@ -73,33 +101,48 @@ seeds:
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
-# In this config, we tell dbt how to build the models, where to build them, which Snowflake warehouse 
-# to use, and what Snowflake query tag to provide on the snowflake site. 
-# These settings can be overridden in the individual model files using the `{{ config(...) }}` macro. 
-
+# In this config, we tell dbt how to build the models, where to build them, which warehouse 
+# to use, and what query tag to provide on the snowflake site. 
+# These settings can be overridden in the individual model files
+# using the `{{ config(...) }}` macro. 
 models:
-  
-  # When you rename the project at the beginning of this yaml file, remember to rename it here too. 
-  # All configurations under "my_project_name" apply only to "my_project_name"
-  my_project_name:
-    transform:
-      # This configuration builds every model under the tranform directory into Snowflake schema named "transform".
-      # learn more about custom schemas: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/using-custom-schemas
-      schema: transform
+  dbt_project_evaluator:
+    schema: project_evaluator
+  # pre-hook: "{{ logging.log_model_start_event() }}"
+  # post-hook: "{{ logging.log_model_end_event() }}"
 
-        # Applies to all files under models/transform/layer_2 folder
-        layer_2:
 
-          # This defaults every model in the layer_2 directory to be materialized as a table in Snowflake. 
-          # To learn more about materializations: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/materializations
+  #The following configuration can be used to specify where the raw (sources) data is uploaded, and where the dbt models are created:
+  dbt_artifacts:
+    +database: enterprise_np # optional, default is your target database
+    +schema: DBT_ARTIFACTS_METADATA # optional, default is your target schema
+    staging:
+      +database: enterprise_np # optional, default is your target database
+      +schema: DBT_ARTIFACTS_METADATA # optional, default is your target schema
+    #sources:
+      #+database: your_sources_database # optional, default is your target database
+      #+schema: your sources_database # optional, default is your target schema
+
+
+
+  #dbt_models_metadata:
+  #  schema: everpeace_meta
+
+
+  my_snowflake_dbt_project:
+    # When you rename the project up top, remember to rename it here too. 
+    # post-hook: "{{ logging.log_model_end_event() }}"
+      transform:
+        stage2:
+          # Applies to all files under models/transform 
           +materialized: table
-
-
-
-
-        layer_1:
-          # Applies to all files under models/transform/layer_1 folder 
-          +materialized: view
+          # This defaults every model in the staging directory to be materialized as a view in Snowflake. To learn more about materializations: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/materializations
+          schema: transform
+          # This configuration builds every model in the staging directory into a schema named staging_<target_schema>
+          # learn more about custom schemas: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/using-custom-schemas
+        stage:
+          # Applies to all files under models/transform 
+          +materialized: table
           # This defaults every model in the staging directory to be materialized as a view in Snowflake. To learn more about materializations: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/materializations
           schema: transform
           # This configuration builds every model in the staging directory into a schema named staging_<target_schema>
@@ -121,8 +164,4 @@ models:
             +materialized: table
             # This defaults every model in the marts/core directory to be materialized as a table in Snowflake
             query_tag: dbt_marts   
-            # This applies a query tag named `dbt_marts` to any related queries in Snowflake's Query_History       
-  dbt_project_evaluator:
-    schema: project_evaluator
-  # pre-hook: "{{ logging.log_model_start_event() }}"
-  # post-hook: "{{ logging.log_model_end_event() }}"
+            # This applies a query tag named `dbt_marts` to any related queries in Snowflake's Query_History      
