@@ -1,1 +1,1 @@
-{{ codegen.generate_source('transform') }}
+{{ codegen.generate_source('data_product') }}

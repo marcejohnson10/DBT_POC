@@ -6,7 +6,7 @@
 
 
 select 
-'{{ target_model }}' x_model,
+'{{ target_model }}'  x_model,
 '{{ target.type }}' x_type,
 '{{ target.schema }}' x_schema,
 '{{ target.name }}' x_name,

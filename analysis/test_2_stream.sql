@@ -1,0 +1,1 @@
+select * from DBT_DEV.TRANSFORM.TEST_2_STREAM
