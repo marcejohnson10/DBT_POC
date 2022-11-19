@@ -49,12 +49,12 @@ vars:
     dev_db: 'dbt_dev'
     prod_db: 'dbt_prod'
 
-  #dbt_models_metadata:
+  dbt_models_metadata:
     # table_name specifies metadata table name
     table_name: dbt_models_metadata
     # schema specifies the schema in which metadata table is created
     #  target schema will be used if not set
-    #schema: everpeace_meta
+    schema: everpeace_meta
     
     # You can define additional columns to the metadata table
     # git information would be very useful when your project is maintained by git
@@ -124,7 +124,6 @@ models:
       #+schema: your sources_database # optional, default is your target schema
 
 
-
   #dbt_models_metadata:
   #  schema: everpeace_meta
 
@@ -164,4 +163,4 @@ models:
             +materialized: table
             # This defaults every model in the marts/core directory to be materialized as a table in Snowflake
             query_tag: dbt_marts   
-            # This applies a query tag named `dbt_marts` to any related queries in Snowflake's Query_History      
+            # This applies a query tag named `dbt_marts` to any related queries in Snowflake's Query_History       
