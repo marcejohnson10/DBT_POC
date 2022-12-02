@@ -73,13 +73,6 @@ models:
       - name: comment
         description: '{{ doc("comment") }}'
 
-  - name: nation_incr_test_rslt
-    description: test staging table
-    columns:
-      - name: n_nationkey
-        tests:
-          - unique
-          - not_null
 
   - name: nation_rslt
     description: staging layer for nations data
@@ -165,7 +158,7 @@ models:
       - name: comment
         description: '{{ doc("comment") }}'
 
-  - name: regions_rslt
+  - name: region_rslt
     description: staging layer for regions data
     columns:
       - name: region_key

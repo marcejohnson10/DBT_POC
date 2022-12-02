@@ -1,0 +1,36 @@
+version: 2
+
+schema: transform
+models:
+
+  - name: nation_incr_test_rslt
+    description: test staging table
+    columns:
+      - name: n_nationkey
+        tests:
+          - unique
+          - not_null
+
+  - name: nation_incr_test_rslt2
+    description: ""
+    #columns:
+
+  - name: nation_incr_test_rslt3
+    description: ""
+    #columns:
+
+  - name: nation_incr_test_rslt31
+    description: ""
+    #columns:
+
+  - name: nation_incr_test_rslt41
+    description: ""
+    #columns:
+
+  - name: test2
+    description: ""
+    #columns:
+
+  - name: test_2
+    description: ""
+    #columns:
