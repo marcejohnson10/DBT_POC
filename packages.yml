@@ -10,7 +10,7 @@ packages:
   - package: dbt-labs/codegen
     version: [">=0.9.0", "<2.0.0"]    
   - package: brooklyn-data/dbt_artifacts
-    version: 2.1.1
+    version: 2.2.1
   - package: dbt-labs/dbt_project_evaluator
     version: 0.2.0
 #  - package: everpeace/dbt-models-metadata
