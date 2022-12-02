@@ -5,7 +5,7 @@
 ) }}
 
 
-select 
+select
 '{{ target_model }}' x_model,
 '{{ target.type }}' x_type,
 '{{ target.schema }}' x_schema,
@@ -19,6 +19,7 @@ select
 '{{ this }}' x_this,
 '{{ this.schema }}' as x_this_schema,
 '{{ this.identifier }}' as x_this_identifier,
+
 trim('{{ test_get_model_name() }}') as x_test_get_model_name
 
 from dual

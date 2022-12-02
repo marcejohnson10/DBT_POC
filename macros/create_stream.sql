@@ -7,7 +7,7 @@
 
     {%- if streamname == none or streamname is not defined -%}
       
-      {{ log("No stream name provide...name of stream defaulted to source table name.") }}
+      {{ log("No stream name provided...name of stream defaulted to source table name.") }}
       
       create stream if not exists {{ this }}_stream on table {{ this }};
       

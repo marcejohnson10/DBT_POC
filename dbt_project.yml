@@ -17,9 +17,10 @@ vars:
   # and create new variables with the names <layer>_folder_name and/or <layer>_prefixes 
   
   # the following sets of variables (i.e. folder names, suffixes, & prefixes) are used with the package "dbt_project_evaluator"
+  # https://github.com/dbt-labs/dbt-project-evaluator/tree/v0.2.0/#customization
   model_types: ['staging', 'intermediate', 'marts', 'other', 'raw', 'products', 'transform']
 
-  staging_folder_name: 'staging'
+  staging_folder_name: 'raw'
   raw_folder_name: 'raw'
   intermediate_folder_name: 'transform'
   marts_folder_name: 'products'
@@ -29,11 +30,11 @@ vars:
   # intermediate_folder_name: 'intermediate'
   # marts_folder_name: 'marts'
 
-  staging_suffixes: ['_stg']
+  staging_suffixes: ['_rawstg']
   intermediate_suffixes: ['_rslt']
   marts_suffixes: ['_fct', '_dim', '_dmt']
   other_suffixes: ['_oth']
-  rawraw_suffixes: ['_rawraw']
+  raw_suffixes: ['_raw']
   products_suffixes: ['_fct', '_dim', '_dmt']
 
   # staging_prefixes: ['stg_']
@@ -109,8 +110,8 @@ models:
   dbt_project_evaluator:
     +database: enterprise_np
     +schema: project_evaluator
-    pre-hook: "{{ logging.log_model_start_event() }}"
-    post-hook: "{{ logging.log_model_end_event() }}"
+    #pre-hook: "{{ logging.log_model_start_event() }}"
+    #post-hook: "{{ logging.log_model_end_event() }}"
 
 
   #The following configuration can be used to specify where the raw (sources) data is uploaded, and where the dbt models are created:
