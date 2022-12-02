@@ -20,11 +20,12 @@ vars:
   # https://github.com/dbt-labs/dbt-project-evaluator/tree/v0.2.0/#customization
   model_types: ['staging', 'intermediate', 'marts', 'other', 'raw', 'products', 'transform']
 
-  staging_folder_name: 'raw'
-  raw_folder_name: 'raw'
-  intermediate_folder_name: 'transform'
-  marts_folder_name: 'products'
-  products_folder_name: 'products'
+  staging_folder_name: 'raw_schema'
+  raw_folder_name: 'raw_schema'
+  intermediate_folder_name: 'transform_schema'
+  marts_folder_name: 'data_products_schema'
+  products_folder_name: 'data_products_schema'
+  transform_folder_name: 'transform_schema'
 
   # staging_folder_name: 'staging'
   # intermediate_folder_name: 'intermediate'
@@ -32,6 +33,7 @@ vars:
 
   staging_suffixes: ['_rawstg']
   intermediate_suffixes: ['_rslt']
+  transform_suffixes: ['_rslt']
   marts_suffixes: ['_fct', '_dim', '_dmt']
   other_suffixes: ['_oth']
   raw_suffixes: ['_raw']
@@ -133,15 +135,15 @@ models:
   my_snowflake_dbt_project:
     # When you rename the project up top, remember to rename it here too. 
     # post-hook: "{{ logging.log_model_end_event() }}"
-      transform:
-        stage2:
+      transform_schema:
+        results:
           # Applies to all files under models/transform 
           +materialized: table
           # This defaults every model in the staging directory to be materialized as a view in Snowflake. To learn more about materializations: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/materializations
           schema: transform
           # This configuration builds every model in the staging directory into a schema named staging_<target_schema>
           # learn more about custom schemas: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/using-custom-schemas
-        stage:
+        examples:
           # Applies to all files under models/transform 
           +materialized: table
           # This defaults every model in the staging directory to be materialized as a view in Snowflake. To learn more about materializations: https://docs.getdbt.com/docs/building-a-dbt-project/building-models/materializations
@@ -157,7 +159,7 @@ models:
           tags: "daily"
           # You can apply tags to models, snapshots, seeds. This allows you to run based on the tag such as `dbt run --model tag:daily` which would let you run all the models tagged "daily"
           # learn more about tags: https://docs.getdbt.com/reference/resource-configs/tags#definition
-      data_product:
+      data_product_schema:
           schema: data_product
           # This configuration builds every model in the transform directory into a schema named transform_<target_schema>
           core:
