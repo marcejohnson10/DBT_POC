@@ -92,6 +92,7 @@ model.
 * `table_name` (required): The source table you wish to generate base model SQL for.
 * `leading_commas` (optional, default=False): Whether you want your commas to be leading (vs trailing).
 * `case_sensitive_cols ` (optional, default=False): Whether your source table has case sensitive column names. If true, keeps the case of the column names from the source.
+* `materialized` (optional, default=None): Set materialization style (e.g. table, view, incremental) inside of the model's `config` block. If not set, materialization style will be controlled by `dbt_project.yml`
 
 
 ### Usage:
@@ -101,7 +102,8 @@ model.
 ```
 {{ codegen.generate_base_model(
     source_name='raw_jaffle_shop',
-    table_name='customers'
+    table_name='customers',
+    materialized='table'
 ) }}
 ```
 
@@ -139,11 +141,11 @@ select * from renamed
 4. Paste the output in to a model, and refactor as required.
 
 ## generate_model_yaml ([source](macros/generate_model_yaml.sql))
-This macro generates the YAML for a model, which you can then paste into a
+This macro generates the YAML for a list of model(s), which you can then paste into a
 schema.yml file.
 
 ### Arguments:
-* `model_name` (required): The model you wish to generate YAML for.
+* `model_names` (required): The model(s) you wish to generate YAML for.
 * `upstream_descriptions` (optional, default=False): Whether you want to include descriptions for identical column names from upstream models.
 
 ### Usage:
@@ -152,17 +154,17 @@ schema.yml file.
 
 ```
 {{ codegen.generate_model_yaml(
-    model_name='customers'
+    model_names=['customers']
 ) }}
 ```
 
 Alternatively, call the macro as an [operation](https://docs.getdbt.com/docs/using-operations):
 
 ```
-$ dbt run-operation generate_model_yaml --args '{"model_name": "customers"}'
+$ dbt run-operation generate_model_yaml --args '{"model_names": ["customers"]}'
 ```
 
-3. The YAML for a base model will be logged to the command line
+3. The YAML for a base model(s) will be logged to the command line
 
 ```
 version: 2

@@ -17,10 +17,10 @@ vars:
   # and create new variables with the names <layer>_folder_name and/or <layer>_prefixes 
   
   # the following sets of variables (i.e. folder names, suffixes, & prefixes) are used with the package "dbt_project_evaluator"
-  model_types: ['staging', 'intermediate', 'marts', 'other', 'rawraw', 'products', 'transform']
+  model_types: ['staging', 'intermediate', 'marts', 'other', 'raw', 'products', 'transform']
 
   staging_folder_name: 'staging'
-  rawraw_folder_name: 'raw'
+  raw_folder_name: 'raw'
   intermediate_folder_name: 'transform'
   marts_folder_name: 'products'
   products_folder_name: 'products'
@@ -54,7 +54,7 @@ vars:
     table_name: dbt_models_metadata
     # schema specifies the schema in which metadata table is created
     #  target schema will be used if not set
-    schema: everpeace_meta
+    #schema: everpeace_meta
     
     # You can define additional columns to the metadata table
     # git information would be very useful when your project is maintained by git
@@ -107,9 +107,10 @@ seeds:
 # using the `{{ config(...) }}` macro. 
 models:
   dbt_project_evaluator:
-    schema: project_evaluator
-  # pre-hook: "{{ logging.log_model_start_event() }}"
-  # post-hook: "{{ logging.log_model_end_event() }}"
+    +database: enterprise_np
+    +schema: project_evaluator
+    pre-hook: "{{ logging.log_model_start_event() }}"
+    post-hook: "{{ logging.log_model_end_event() }}"
 
 
   #The following configuration can be used to specify where the raw (sources) data is uploaded, and where the dbt models are created:
