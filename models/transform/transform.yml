@@ -1,0 +1,401 @@
+version: 2
+
+models:
+  - name: customer_rslt
+    description: ""
+    columns:
+      - name: customer_key
+        description: ""
+
+      - name: name
+        description: ""
+
+      - name: address
+        description: ""
+
+      - name: nation_key
+        description: ""
+
+      - name: phone_number
+        description: ""
+
+      - name: account_balance
+        description: ""
+
+      - name: market_segment
+        description: ""
+
+      - name: comment
+        description: ""
+
+  - name: lineitem_rslt
+    description: ""
+    columns:
+      - name: order_item_key
+        description: ""
+
+      - name: order_key
+        description: ""
+
+      - name: part_key
+        description: ""
+
+      - name: supplier_key
+        description: ""
+
+      - name: line_number
+        description: ""
+
+      - name: quantity
+        description: ""
+
+      - name: extended_price
+        description: ""
+
+      - name: discount_percentage
+        description: ""
+
+      - name: tax_rate
+        description: ""
+
+      - name: return_flag
+        description: ""
+
+      - name: status_code
+        description: ""
+
+      - name: ship_date
+        description: ""
+
+      - name: commit_date
+        description: ""
+
+      - name: receipt_date
+        description: ""
+
+      - name: ship_instructions
+        description: ""
+
+      - name: ship_mode
+        description: ""
+
+      - name: comment
+        description: ""
+
+  - name: nation_incr_test_rslt3
+    description: ""
+    columns:
+      - name: n_nationkey
+        description: ""
+
+      - name: n_name_derived
+        description: ""
+
+      - name: n_name
+        description: ""
+
+      - name: new_fld
+        description: ""
+
+  - name: nation_incr_test_rslt31
+    description: ""
+    columns:
+      - name: n_nationkey
+        description: ""
+
+      - name: n_name_derived
+        description: ""
+
+      - name: n_name
+        description: ""
+
+      - name: new_fld
+        description: ""
+
+  - name: orders_rslt
+    description: ""
+    columns:
+      - name: order_key
+        description: ""
+
+      - name: customer_key
+        description: ""
+
+      - name: status_code
+        description: ""
+
+      - name: total_price
+        description: ""
+
+      - name: order_date
+        description: ""
+
+      - name: priority_code
+        description: ""
+
+      - name: clerk_name
+        description: ""
+
+      - name: ship_priority
+        description: ""
+
+      - name: comment
+        description: ""
+
+  - name: nation_incr_test_rslt
+    description: ""
+    columns:
+      - name: n_nationkey
+        description: ""
+
+      - name: n_name_derived
+        description: ""
+
+      - name: n_name
+        description: ""
+
+      - name: n_regionkey
+        description: ""
+
+      - name: n_comment
+        description: ""
+
+      - name: new_fld
+        description: ""
+
+  - name: nation_incr_test_rslt41
+    description: ""
+    columns:
+      - name: n_nationkey
+        description: ""
+
+      - name: n_name_derived
+        description: ""
+
+      - name: n_name
+        description: ""
+
+      - name: new_fld
+        description: ""
+
+  - name: partsupp_rslt
+    description: ""
+    columns:
+      - name: part_supplier_key
+        description: ""
+
+      - name: part_key
+        description: ""
+
+      - name: supplier_key
+        description: ""
+
+      - name: available_quantity
+        description: ""
+
+      - name: cost
+        description: ""
+
+      - name: comment
+        description: ""
+
+  - name: nation_rslt
+    description: ""
+    columns:
+      - name: nation_key
+        description: ""
+
+      - name: name
+        description: ""
+
+      - name: region_key
+        description: ""
+
+      - name: comment
+        description: ""
+
+  - name: region_rslt
+    description: ""
+    columns:
+      - name: region_key
+        description: ""
+
+      - name: name
+        description: ""
+
+      - name: comment
+        description: ""
+
+  - name: test_2
+    description: ""
+    columns:
+      - name: x_model
+        description: ""
+
+      - name: x_type
+        description: ""
+
+      - name: x_schema
+        description: ""
+
+      - name: x_name
+        description: ""
+
+      - name: x_database
+        description: ""
+
+      - name: x_profile_name
+        description: ""
+
+      - name: x_warehouse
+        description: ""
+
+      - name: x_user
+        description: ""
+
+      - name: x_role
+        description: ""
+
+      - name: x_account
+        description: ""
+
+      - name: x_this
+        description: ""
+
+      - name: x_this_schema
+        description: ""
+
+      - name: x_this_identifier
+        description: ""
+
+      - name: x_test_get_model_name
+        description: ""
+
+  - name: nation_incr_test_rslt2
+    description: ""
+    columns:
+      - name: n_nationkey
+        description: ""
+
+      - name: n_name_derived
+        description: ""
+
+      - name: n_name
+        description: ""
+
+      - name: new_fld
+        description: ""
+
+  - name: part_rslt
+    description: ""
+    columns:
+      - name: part_key
+        description: ""
+
+      - name: name
+        description: ""
+
+      - name: manufacturer
+        description: ""
+
+      - name: brand
+        description: ""
+
+      - name: type
+        description: ""
+
+      - name: size
+        description: ""
+
+      - name: container
+        description: ""
+
+      - name: retail_price
+        description: ""
+
+      - name: comment
+        description: ""
+
+  - name: test2
+    description: ""
+    columns:
+      - name: x_model
+        description: ""
+
+      - name: x_type
+        description: ""
+
+      - name: x_schema
+        description: ""
+
+      - name: x_name
+        description: ""
+
+      - name: x_database
+        description: ""
+
+      - name: x_profile_name
+        description: ""
+
+      - name: x_warehouse
+        description: ""
+
+      - name: x_user
+        description: ""
+
+      - name: x_role
+        description: ""
+
+      - name: x_account
+        description: ""
+
+      - name: x_this
+        description: ""
+
+      - name: x_this_schema
+        description: ""
+
+      - name: x_this_identifier
+        description: ""
+
+      - name: x_test_get_model_name
+        description: ""
+
+      - name: rwnum
+        description: ""
+
+      - name: _audit_run_id
+        description: ""
+
+      - name: sch
+        description: ""
+
+      - name: nm
+        description: ""
+
+      - name: custom
+        description: ""
+
+  - name: supplier_rslt
+    description: ""
+    columns:
+      - name: supplier_key
+        description: ""
+
+      - name: supplier_name
+        description: ""
+
+      - name: supplier_address
+        description: ""
+
+      - name: nation_key
+        description: ""
+
+      - name: phone_number
+        description: ""
+
+      - name: account_balance
+        description: ""
+
+      - name: comment
+        description: ""
