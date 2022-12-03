@@ -72,7 +72,7 @@ vars:
 # The `source-paths` config, for example, states that models in this project can be
 # found in the "models/" directory. You don't need to change these for this project.
 source-paths: ["models"]
-analysis-paths: ["analysis"]
+#analysis-paths: ["analysis"]
 test-paths: ["tests"]
 seed-paths: ["seeds"]
 macro-paths: ["macros"]
