@@ -3,13 +3,14 @@ version: 2
 schema: transform
 models:
 
-  - name: nation_incr_test_rslt
+  - name: country_rslt
     description: test staging table
     columns:
-      - name: n_nationkey
+      - name: nation_key
         tests:
-          - unique
-          - not_null
+#          - unique
+#          - not_null
+      - name: name  
 
   - name: nation_incr_test_rslt2
     description: ""

@@ -1,10 +1,6 @@
-{{
-    config(
-        materialized = 'table'
-    )
-}}
 
-select n_nationkey, 
+select distinct 
+n_nationkey, 
 case n_name 
 when 'BRAZIL' then 'USA'
 when 'ARGENTINA' then 'USA'
@@ -23,7 +19,8 @@ where n_name in ('ARGENTINA',
 'INDIA',
 'IRAN')
 UNION ALL
-select n_nationkey, 
+select distinct
+ n_nationkey, 
 n_name ,
 n_name,
 n_regionkey+1,

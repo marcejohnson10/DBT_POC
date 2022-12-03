@@ -20,7 +20,7 @@ vars:
   # https://github.com/dbt-labs/dbt-project-evaluator/tree/v0.2.0/#customization
   model_types: ['staging', 'intermediate', 'marts', 'other', 'raw', 'products', 'transform']
 
-  staging_folder_name: 'raw_schema'
+  staging_folder_name: '0_staging_schema'
   raw_folder_name: 'raw_schema'
   intermediate_folder_name: 'transform_schema'
   marts_folder_name: 'data_products_schema'
@@ -31,7 +31,7 @@ vars:
   # intermediate_folder_name: 'intermediate'
   # marts_folder_name: 'marts'
 
-  staging_suffixes: ['_rawstg']
+  staging_suffixes: ['_stg']
   intermediate_suffixes: ['_rslt']
   transform_suffixes: ['_rslt']
   marts_suffixes: ['_fct', '_dim', '_dmt']
@@ -135,6 +135,9 @@ models:
   my_snowflake_dbt_project:
     # When you rename the project up top, remember to rename it here too. 
     # post-hook: "{{ logging.log_model_end_event() }}"
+      1_raw_schema:
+        schema: raw
+        +materialized: table
       2_transform_schema:
         results:
           # Applies to all files under models/transform 

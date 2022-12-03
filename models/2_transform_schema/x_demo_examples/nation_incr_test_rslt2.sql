@@ -15,7 +15,7 @@ n_nationkey,
 n_name_derived,
 n_name,
 new_fld 
-from {{ ref('nation_incr_test_rslt') }}
+from {{ ref('country_raw') }}
 
 where --n_regionkey = 1 or
  --n_regionkey = 2 
