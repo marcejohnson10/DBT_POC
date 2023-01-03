@@ -1,7 +1,7 @@
 {{
     config(
         materialized ='incremental',
-        unique_key ='n_nationkey',
+        unique_key ='nation_key',
         on_schema_change='sync_all_columns',
         incremental_strategy='merge'
     )

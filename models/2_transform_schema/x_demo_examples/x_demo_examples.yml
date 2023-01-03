@@ -7,7 +7,7 @@ models:
     description: test staging table
     columns:
       - name: nation_key
-        tests:
+#        tests:
 #          - unique
 #          - not_null
       - name: name  
